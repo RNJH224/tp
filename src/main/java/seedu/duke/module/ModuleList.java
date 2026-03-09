@@ -6,7 +6,6 @@ import java.util.List;
 import seedu.duke.exception.DuplicateException;
 
 public class ModuleList {
-    private final List<Module> completedModules;
 
     private static final List<String> REQUIRED_MODULES = Arrays.asList(
             // common curriculum requirements
@@ -22,6 +21,8 @@ public class ModuleList {
             // unrestricted electives placeholders
             "UE1", "UE2", "UE3", "UE4", "UE5", "UE6", "UE7", "UE8", "UE9", "UE10"
     );
+
+    private final List<Module> completedModules;
 
     public ModuleList(List<Module> completedModules) {
         this.completedModules = completedModules;

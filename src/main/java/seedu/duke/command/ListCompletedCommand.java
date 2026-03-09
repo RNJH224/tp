@@ -8,4 +8,5 @@ public class ListCompletedCommand extends Command {
     public String execute(ModuleList modules) {
         return modules.listCompletedModules();
     }
+    
 }

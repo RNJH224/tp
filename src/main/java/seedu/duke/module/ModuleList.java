@@ -1,5 +1,7 @@
 package seedu.duke.module;
+
 import java.util.List;
+import seedu.duke.exception.DuplicateException;
 
 public class ModuleList {
     private final List<Module> completedModules;
@@ -7,10 +9,16 @@ public class ModuleList {
         this.completedModules = completedModules;
     }
 
-    public void addModule(Module newModule) {
+    public void addModule(Module newModule) throws DuplicateException {
+        for (Module module : completedModules) {
+            if (module.getModuleCode().equals(newModule.getModuleCode())) {
+                throw new DuplicateException(newModule.getModuleCode());
+            }
+        }
         newModule.markCompleted();
         completedModules.add(newModule);
     }
+
 
     public boolean removeModule(String moduleCode) {
         for (int i = 0; i < completedModules.size(); i++){

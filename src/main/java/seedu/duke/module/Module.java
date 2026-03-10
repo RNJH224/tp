@@ -2,16 +2,21 @@ package seedu.duke.module;
 
 public class Module {
     private final String moduleCode;
+    private final int modularCredits;
     private boolean isCompleted;
 
-
-    public Module(String moduleCode) {
+    public Module(String moduleCode, int modularCredits) {
         this.moduleCode = moduleCode;
+        this.modularCredits = modularCredits;
         this.isCompleted = false;
     }
 
     public String getModuleCode() {
         return moduleCode;
+    }
+
+    public int getModularCredits() {
+        return modularCredits;
     }
 
     public boolean isCompleted() {

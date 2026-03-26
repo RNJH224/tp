@@ -23,7 +23,9 @@ public class Storage {
 
         logger.info("Loading modules from file: " + filePath);
 
-        file.getParentFile().mkdirs();
+        File parent = file.getParentFile();
+        assert parent != null : "Parent directory should exist for file path";
+        parent.mkdirs();
 
         if (!file.exists()) {
             file.createNewFile();
@@ -35,17 +37,23 @@ public class Storage {
         Scanner scanner = new Scanner(file);
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-
-            String[] parts = line.split("\\|");
             logger.log(Level.FINE, "Reading line: {0}", line);
 
+            assert !line.isBlank() : "Line in storage file should not be blank";
 
-            String code = parts[0];
-            int mc = Integer.parseInt(parts[1]);
+            String[] parts = line.split("\\|");
+            assert parts.length == 2 : "Each line must have exactly 2 fields: " + line;
+
+            String code = parts[0].trim();
+            assert !code.isEmpty() : "Module code should not be empty";
+
+            int mc = Integer.parseInt(parts[1].trim());
+            assert mc > 0 : "Modular credits should be positive";
 
             Module module = new Module(code, mc);
-            module.markCompleted();
+            assert module != null : "Module object should be created successfully";
 
+            module.markCompleted();
             modules.add(module);
         }
         scanner.close();

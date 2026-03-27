@@ -8,6 +8,7 @@ import seedu.duke.command.ListCompletedCommand;
 import seedu.duke.command.ListIncompleteCommand;
 import seedu.duke.command.ListNeededCommand;
 import seedu.duke.command.RemoveCommand;
+import seedu.duke.command.HelpCommand;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -59,6 +60,23 @@ public class ParserTest {
     public void parseCommand_emptyString_returnsNull() {
         assertNull(Parser.parseCommand(""));
     }
-    //@@author
+
+    @Test
+    public void parseCommand_help_returnsHelpCommand() {
+        Command result = Parser.parseCommand("help");
+        assertTrue(result instanceof HelpCommand);
+    }
+
+    @Test
+    public void parseCommand_helpWithTopic_returnsHelpCommand() {
+        Command result = Parser.parseCommand("help done");
+        assertTrue(result instanceof HelpCommand);
+    }
+
+    @Test
+    public void parseCommand_helpWithListTopic_returnsHelpCommand() {
+        Command result = Parser.parseCommand("help list completed");
+        assertTrue(result instanceof HelpCommand);
+    }
 }
 

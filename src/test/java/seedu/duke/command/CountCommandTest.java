@@ -39,4 +39,30 @@ public class CountCommandTest {
         assertTrue(result.contains("Completed: 8 / 160 MCs"));
         assertTrue(result.contains("5.0%"));
     }
+
+    @Test
+    public void execute_externalModule_countsTowardsTotalMcs() {
+        ModuleList ml = new ModuleList();
+        DoneCommand doneCommand = new DoneCommand("SEP1001", 4);
+        doneCommand.execute(ml);
+        CountCommand cmd = new CountCommand();
+        String result = cmd.execute(ml);
+        assertTrue(result.contains("Completed: 4 / 160 MCs"));
+    }
+
+    @Test
+    public void execute_moreThan160Mcs_capsRemainingAtZero() {
+        ModuleList ml = new ModuleList();
+
+        for (int i = 1; i <= 41; i++) {
+            String code = String.format("EX%04d", i); // EX0001, EX0002, ...
+            DoneCommand doneCommand = new DoneCommand(code, 4);
+            doneCommand.execute(ml);
+        }
+
+        CountCommand cmd = new CountCommand();
+        String result = cmd.execute(ml);
+        assertTrue(result.contains("Completed: 164 / 160 MCs"));
+        assertTrue(result.contains("Incomplete: 0 MCs"));
+    }
 }

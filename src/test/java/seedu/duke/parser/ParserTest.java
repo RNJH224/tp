@@ -1,6 +1,7 @@
 package seedu.duke.parser;
 
 import org.junit.jupiter.api.Test;
+import seedu.duke.exception.MissingCommandException;
 import seedu.duke.command.Command;
 import seedu.duke.command.CountCommand;
 import seedu.duke.command.DoneCommand;
@@ -12,6 +13,7 @@ import seedu.duke.command.HelpCommand;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParserTest {
     //@@author Kailer811
@@ -77,6 +79,31 @@ public class ParserTest {
     public void parseCommand_helpWithListTopic_returnsHelpCommand() {
         Command result = Parser.parseCommand("help list completed");
         assertTrue(result instanceof HelpCommand);
+    }
+
+    @Test
+    public void parseCommand_removeWithoutModuleCode_throwsMissingCommandException() {
+        assertThrows(MissingCommandException.class, () -> Parser.parseCommand("remove"));
+    }
+
+    @Test
+    public void parseCommand_doneWithoutModuleCode_throwsMissingCommandException() {
+        assertThrows(MissingCommandException.class, () -> Parser.parseCommand("done"));
+    }
+
+    @Test
+    public void parseDone_missingMcValue_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> Parser.parseDone("done CS2113 /mc"));
+    }
+
+    @Test
+    public void parseDone_missingModuleCodeBeforeMc_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> Parser.parseDone("done /mc 4"));
+    }
+
+    @Test
+    public void parseDone_nonNumericMc_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> Parser.parseDone("done CS2113 /mc abc"));
     }
 }
 

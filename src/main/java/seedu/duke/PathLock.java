@@ -25,7 +25,13 @@ public class PathLock {
             List<Module> savedModules = storage.load();
             for (Module saved : savedModules) {
                 try {
-                    modules.addModule(saved.getModuleCode());
+                    String code = saved.getModuleCode();
+                    int mc = saved.getModularCredits();
+                    if (modules.isRecognisedModule(code)){
+                        modules.addModule(code);
+                    } else {
+                        modules.addExternalModule(code, mc);
+                    }
                 } catch (DuplicateException | IllegalArgumentException e) {
                     // skip invalid or duplicate entries from save file
                 }

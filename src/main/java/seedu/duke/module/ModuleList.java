@@ -117,12 +117,22 @@ public class ModuleList {
         }
 
         externalModules.put(code, new Module(code, mc));
+
+        Module externalModule = externalModules.get(code);
+        externalModule.markCompleted();
+
         logger.log(Level.FINE, "External module added: {0} (MC={1})", new Object[]{code, mc});
     }
 
     public boolean removeModule(String moduleCode) {
         String code = moduleCode.toUpperCase();
-        Module module = allModules.get(code);
+        Module module;
+        if (isRecognisedModule(code)) {
+            module = allModules.get(code);
+        } else {
+            module =  externalModules.get(code);
+        }
+
         if (module != null && module.isCompleted()) {
             module.markIncompleted();
             return true;
@@ -140,6 +150,14 @@ public class ModuleList {
                 completed.add(module);
             }
         }
+
+        for (Module module : externalModules.values()) {
+            if (module.isCompleted()) {
+                completed.add(module);
+            }
+        }
+
+
         return completed;
     }
 
@@ -220,6 +238,12 @@ public class ModuleList {
     public String countMcs() {
         int completedMcs = 0;
         for (Module module : allModules.values()) {
+            if (module.isCompleted()) {
+                completedMcs += module.getModularCredits();
+            }
+        }
+
+        for (Module module : externalModules.values()) {
             if (module.isCompleted()) {
                 completedMcs += module.getModularCredits();
             }

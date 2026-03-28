@@ -84,9 +84,9 @@ public class PlannerList {
 
     public void editModule(Module editedModule, String semester) {
         editedModule.setSemester(semester);
-       String moduleCode = editedModule.getModuleCode();
-       removeModule(moduleCode);
-       addModule(editedModule);
+        String moduleCode = editedModule.getModuleCode();
+        removeModule(moduleCode);
+        addModule(editedModule);
     }
     // TODO: findModule(), editModule(), removeModule()
 }

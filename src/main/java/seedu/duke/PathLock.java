@@ -45,8 +45,11 @@ public class PathLock {
                     }
 
                     String result = command.execute(appState);
+                    UI.dash();
                     System.out.println(result);
+                    UI.dash();
                 } catch (Exception e) {
+                    UI.dash();
                     System.out.println(e.getMessage());
                     UI.dash();
                 }

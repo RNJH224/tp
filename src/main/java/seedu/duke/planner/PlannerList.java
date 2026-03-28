@@ -1,6 +1,7 @@
 package seedu.duke.planner;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 import seedu.duke.module.Module;
 public class PlannerList {
@@ -28,6 +29,18 @@ public class PlannerList {
         return output.toString();
     }
 
+    private boolean isModuleInPlanner (String moduleCode) {
+        for (int i = 0; i < 8; i++) {
+            ArrayList<Module> currSem = course.get(i);
+            for (Module currModule : currSem) {
+                if (currModule.getModuleCode().equals(moduleCode)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void addModule(Module module) {
         String semester = module.getSemester();
         switch(semester) {
@@ -50,6 +63,30 @@ public class PlannerList {
         default:
             break;
         }
+    }
+
+    public void removeModule(String moduleCode) {
+        boolean isModulePresent = false;
+        for (int i = 0; i < 8; i++) {
+            ArrayList<Module> currSem = course.get(i);
+            for (int j = 0; j < currSem.size(); j++) {
+                Module currModule = currSem.get(j);
+                if (currModule.getModuleCode().equals(moduleCode)) {
+                    currSem.remove(j);
+                    isModulePresent = true;
+                }
+            }
+        }
+        if (!isModulePresent) {
+            throw new NoSuchElementException(moduleCode + " is not found in planner");
+        }
+    }
+
+    public void editModule(Module editedModule, String semester) {
+        editedModule.setSemester(semester);
+       String moduleCode = editedModule.getModuleCode();
+       removeModule(moduleCode);
+       addModule(editedModule);
     }
     // TODO: findModule(), editModule(), removeModule()
 }

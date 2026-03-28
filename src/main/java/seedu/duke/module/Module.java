@@ -57,6 +57,11 @@ public class Module {
     }
 
     public void setSemester(String semester) {
+        switch (semester) {
+        case "y1s1", "y1s2", "y2s1", "y2s2", "y3s1", "y3s2", "y4s1", "y4s2": break;
+        default:
+            throw new IllegalArgumentException("Indicate semester correctly e.g. 'y3s1'");
+        }
         this.semester = semester;
     }
 

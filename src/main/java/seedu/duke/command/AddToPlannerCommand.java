@@ -19,9 +19,16 @@ public class AddToPlannerCommand extends Command {
         PlannerList course = appState.getPlanner();
 
         Module module = moduleList.allModules.get(moduleCode);
-        module.setSemester(semester);
+        if (module == null) {
+            throw new IllegalArgumentException("\"" + moduleCode + "\" is not a recognised module.");
+        }
+        try {
+            module.setSemester(semester);
+        } catch (IllegalArgumentException e) {
+            return e.getMessage();
+        }
         course.addModule(module);
 
-        return ("module: " + module.getModuleCode() + " added");
+        return (module.getModuleCode() + " added to planner");
     }
 }

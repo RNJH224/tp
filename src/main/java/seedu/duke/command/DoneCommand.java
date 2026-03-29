@@ -4,6 +4,7 @@ import seedu.duke.module.Module;
 import seedu.duke.module.ModuleList;
 import seedu.duke.exception.DuplicateException;
 import seedu.duke.storage.Storage;
+import seedu.duke.appstate.AppState;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -19,20 +20,29 @@ public class DoneCommand extends Command {
     }
 
     @Override
-    public String execute(ModuleList modules) {
+    public String execute(AppState appState) {
+        assert appState != null : "AppState should not be null";
+
+        ModuleList modules = appState.getModule();
+        String username = appState.getProfile().getName();
+        Storage storage = new Storage(username);
+
         assert modules != null : "ModuleList should not be null";
         assert moduleCode != null && !moduleCode.isEmpty() : "ModuleCode should not be null";
 
         logger.log(Level.FINE, "Executing DoneCommand for {0}", moduleCode);
 
-        int modularCredits = ModuleList.getMcForModule(moduleCode);
-        Module newModule = new Module(moduleCode, modularCredits);
         try {
-            modules.addModule(newModule);
-            logger.log(Level.FINE, "Module added: {0} (MC={1})", new Object[]{moduleCode, modularCredits});
+            int modularCredits = modules.getMcForModule(moduleCode);
+            Module newModule = new Module(moduleCode, modularCredits);
 
-            storage.save(modules.completedModules);
-            logger.log(Level.FINE, "Storage updated after adding module: {0}", moduleCode);
+            modules.addModule(newModule);
+            logger.log(Level.FINE, "Module added: {0} (MC={1})",
+                    new Object[]{moduleCode, modularCredits});
+
+            storage.save(modules.getCompletedModules());
+            logger.log(Level.FINE, "Storage updated for user {0} after adding module: {1}",
+                    new Object[]{username, moduleCode});
 
             return moduleCode + " has been added";
 

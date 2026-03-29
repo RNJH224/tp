@@ -11,6 +11,8 @@ import seedu.duke.command.ListNeededCommand;
 import seedu.duke.command.CountCommand;
 import seedu.duke.command.AddToPlannerCommand;
 import seedu.duke.command.RemoveFromPlannerCommand;
+import seedu.duke.command.PrereqCommand;
+import seedu.duke.command.PostreqCommand;
 import seedu.duke.exception.MissingCommandException;
 import seedu.duke.command.HelpCommand;
 
@@ -76,6 +78,28 @@ public class Parser {
                 String moduleCode = input.substring(7).trim();
                 return new RemoveFromPlannerCommand(moduleCode);
             }
+        }
+
+        if (input.startsWith("prereq")) {
+            if (input.length() < 8) {
+                throw new MissingCommandException("Please input module code after 'prereq '");
+            }
+            String moduleCode = input.substring(7).trim();
+            if (moduleCode.isEmpty()) {
+                throw new MissingCommandException("Please input module code after 'prereq '");
+            }
+            return new PrereqCommand(moduleCode);
+        }
+
+        if (input.startsWith("postreq")) {
+            if (input.length() < 9) {
+                throw new MissingCommandException("Please input module code after 'postreq '");
+            }
+            String moduleCode = input.substring(8).trim();
+            if (moduleCode.isEmpty()) {
+                throw new MissingCommandException("Please input module code after 'postreq '");
+            }
+            return new PostreqCommand(moduleCode);
         }
 
         if (input.equals("help")) {

@@ -1,6 +1,5 @@
 package seedu.duke.command;
 
-import seedu.duke.appstate.AppState;
 import seedu.duke.module.ModuleList;
 import seedu.duke.storage.Storage;
 
@@ -9,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RemoveCommand extends Command {
+    Storage storage = new Storage("data/test.txt");
     private final String moduleCode;
     private final Logger logger = Logger.getLogger(RemoveCommand.class.getName());
 
@@ -17,8 +17,7 @@ public class RemoveCommand extends Command {
     }
 
     @Override
-    public String execute(AppState appState) {
-        ModuleList modules = appState.getModule();
+    public String execute(ModuleList modules) {
         assert modules != null : "ModuleList should not be null";
         assert moduleCode != null && !moduleCode.isEmpty() : "ModuleCode should not be null";
 
@@ -26,7 +25,7 @@ public class RemoveCommand extends Command {
 
         boolean removed = modules.removeModule(moduleCode);
         try {
-            Storage.save(modules.getCompletedModules());
+            storage.save(modules.completedModules);
             logger.log(Level.FINE, "Storage updated after removing module: {0}", moduleCode);
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Failed to save after removing module: {0}", moduleCode);

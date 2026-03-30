@@ -305,6 +305,24 @@ Storing all help content in `buildHelpMap()` as a `LinkedHashMap` means that add
 `normaliseTopic()` acting as a pre-processing step keeps `showDetailedHelp()` clean. If future commands have aliases or shorthand (e.g. `lc` for `list completed`), `normaliseTopic()` is the only place that needs updating.
 
 ---
+## Implementation: Kailer<br>Planner Feature Classes
+### Class Structure 
+
+The diagrams below show the key classes involved in the planner feature and their relationships
+
+`planner list`<br>
+![Class Diagram of planner list](./Diagrams/PlannerList.png)
+
+`planner add`<br>
+![Class Diagram of planner add](./Diagrams/AddToPlannerCommand.png)
+
+`planner remove`<br>
+![Class Diagram of planner remove](./Diagrams/RemovePlannerCommand.png)
+
+`planner edit`<br>
+![Class Diagram of planner edit](./Diagrams/EditPlannerCommand.png)
+
+---
 ## Product scope
 ### Target user profile
 - Y1-Y4 Computer Engineering Undergraduate Students (JC path)

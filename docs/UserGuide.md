@@ -7,6 +7,7 @@ PathLock is a **desktop app for planning your CEG modules**, optimised for use v
 - [Quick Start](#quick-start)
 - [Features](#features)
     - [Viewing help: `help`](#viewing-help--help)
+    - [Profile creation: `profile`]()
     - [Marking a module as completed: `done`](#marking-a-module-as-completed--done)
     - [Removing a completed module: `remove`](#removing-a-completed-module--remove)
     - [Listing completed modules: `list completed`](#listing-completed-modules--list-completed)
@@ -94,6 +95,43 @@ Examples:
 
 ---
 
+### Profile Creation
+
+#### Creating or loading a profile at startup
+When the program starts, it prompts the user to enter their name
+
+If the name is not found in storage, the program creates a new profile with that name and then prompts the user to enter their GPA.
+
+If the name is found in storage, the program loads all saved data under that profile.
+
+Example output (new profile):
+```
+Enter your name: russell
+Enter your GPA (2.0 to 5.0): 4.5
+Profile saved for russell.
+Mar 31, 2026 9:49:27 PM seedu.duke.storage.ProfileStorage saveProfile
+INFO: Saved profile for user: russell
+Recommended max semester workload: 32 MCs
+=======================================================================
+Mar 31, 2026 9:49:27 PM seedu.duke.module.ModuleLoader loadModules
+INFO: Loaded 34 modules from JSON
+Mar 31, 2026 9:49:27 PM seedu.duke.storage.Storage load
+INFO: Loading modules from file: data/users/russell_modules.txt
+Mar 31, 2026 9:49:27 PM seedu.duke.storage.Storage load
+WARNING: Module file not found. Created new file at data/users/russell_modules.txt
+```
+Example output (existing profile):
+
+```
+Enter your name: russell
+Mar 31, 2026 10:06:14 PM seedu.duke.storage.ProfileStorage loadProfile
+INFO: Loaded profile for user: russell
+Welcome back, russell!
+Saved GPA: 4.50
+Recommended maximum semester workload: 32 MCs
+```
+
+---
 ### List Commands
 
 #### Listing completed modules : `list completed`

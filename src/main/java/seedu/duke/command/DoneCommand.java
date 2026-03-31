@@ -30,7 +30,7 @@ public class DoneCommand extends Command {
         assert modules != null : "ModuleList should not be null";
         assert moduleCode != null && !moduleCode.isEmpty() : "ModuleCode should not be null";
 
-        logger.log(Level.FINE, "Executing DoneCommand for {0} , mc={1}", new Object[]{moduleCode, mc});
+        logger.log(Level.FINE, "Executing DoneCommand for {0}, mc={1}", new Object[]{moduleCode, mc});
 
         try {
             ModuleValidator.validateModuleCode(moduleCode);
@@ -58,7 +58,7 @@ public class DoneCommand extends Command {
         }
     }
 
-    private String handleInternalModule(ModuleList modules,Storage storage) throws DuplicateException, IOException {
+    private String handleInternalModule(ModuleList modules, Storage storage) throws DuplicateException, IOException {
         int expectedMc = modules.getMcForModule(moduleCode);
 
         ModuleValidator.validateInternalMc(mc, expectedMc, moduleCode);
@@ -71,8 +71,7 @@ public class DoneCommand extends Command {
         return moduleCode + " has been added.";
     }
 
-
-    private String handleExternalModule(ModuleList modules,Storage storage) throws DuplicateException, IOException {
+    private String handleExternalModule(ModuleList modules, Storage storage) throws DuplicateException, IOException {
         if (mc == null) {
             return "\"" + moduleCode + "\" is not a recognised module. "
                     + "If this is an external module, provide its MCs using /mc. "
@@ -88,5 +87,5 @@ public class DoneCommand extends Command {
                 new Object[]{moduleCode, mc});
         return moduleCode + " has been added.";
     }
+    //@@author
 }
-//@@author

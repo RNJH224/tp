@@ -6,10 +6,10 @@ import seedu.duke.profile.UserProfile;
 import seedu.duke.storage.PlannerStorage;
 
 public class AppState {
-    private final ModuleList module;
-    private final PlannerList planner;
-    private final UserProfile profile;
-    private final PlannerStorage plannerStorage;
+    private ModuleList module;
+    private PlannerList planner;
+    private UserProfile profile;
+    private PlannerStorage plannerStorage;
 
     public AppState(ModuleList module, PlannerList planner, UserProfile profile,String username) {
         this.module = module;
@@ -31,5 +31,11 @@ public class AppState {
     }
     public PlannerStorage getPlannerStorage() {
         return plannerStorage;
+    }
+    public void update(ModuleList module, PlannerList planner, UserProfile profile, PlannerStorage plannerStorage) {
+        this.module = module;
+        this.planner = planner;
+        this.profile = profile;
+        this.plannerStorage = plannerStorage;
     }
 }

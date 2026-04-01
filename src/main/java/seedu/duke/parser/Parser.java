@@ -15,6 +15,7 @@ import seedu.duke.command.PrereqCommand;
 import seedu.duke.command.PostreqCommand;
 import seedu.duke.exception.MissingCommandException;
 import seedu.duke.command.HelpCommand;
+import seedu.duke.command.SwitchUserCommand;
 
 public class Parser {
 
@@ -46,6 +47,14 @@ public class Parser {
             }
             String moduleCode = input.substring(7).trim();
             return new RemoveCommand(moduleCode);
+        }
+
+        if (input.startsWith("switch")) {
+            if (input.length() < 8) {
+                throw new MissingCommandException("Please input username after 'switch '");
+            }
+            String username = input.substring(7).trim();
+            return new SwitchUserCommand(username);
         }
 
         if (input.startsWith("planner")) {

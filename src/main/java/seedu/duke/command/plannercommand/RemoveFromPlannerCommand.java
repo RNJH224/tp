@@ -15,6 +15,7 @@ public class RemoveFromPlannerCommand extends Command {
         PlannerList course = appState.getPlanner();
         try {
             course.removeModule(moduleCode);
+            appState.getPlannerStorage().save(course);
         } catch (Exception e) {
             return e.getMessage();
         }

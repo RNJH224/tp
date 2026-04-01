@@ -18,7 +18,7 @@ public class Storage {
 
     public Storage(String username) {
         assert username != null && !username.trim().isEmpty() : "Username cannot be empty";
-        this.filePath = "data/users/" + username.trim() + "_modules.txt";
+        this.filePath = "data/users/" + username.trim() + "/modules.txt";
     }
 
     public List<Module> load() throws IOException {

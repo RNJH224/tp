@@ -49,7 +49,7 @@ Given below are my contributions to the project.
 ---
 
 - **Code contributed**:
-  [RepoSense link](https://nus-cs2113-ay2526s2.github.io/tp-dashboard/?search=ryanzx-zone&breakdown=true)
+  [RepoSense link](https://nus-cs2113-ay2526-s2.github.io/tp-dashboard/?search=ryanzx-zone&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other)
 
 ---
 

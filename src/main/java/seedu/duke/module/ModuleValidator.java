@@ -61,6 +61,12 @@ public class ModuleValidator {
                     "MC must be a positive integer, but got: " + mc + "."
             );
         }
+        if (mc > 12) {
+            logger.log(Level.WARNING, "MC value exceeded upper limit: {0}", mc);
+            throw new IllegalArgumentException(
+                    "MC cannot be greater than 12, but got: " + mc + "."
+            );
+        }
     }
 
     /**
@@ -72,8 +78,11 @@ public class ModuleValidator {
      * @param moduleCode Module code.
      * @throws IllegalArgumentException if suppliedMc does not match expectedMc.
      */
-    public static void validateInternalMc(Integer suppliedMc, int expectedMc, String moduleCode) {
+    public static void validateInternalMc(Integer suppliedMc, Integer expectedMc, String moduleCode) {
         if (suppliedMc == null) {
+            return;
+        }
+        if (expectedMc == null) {
             return;
         }
         if (suppliedMc != expectedMc) {

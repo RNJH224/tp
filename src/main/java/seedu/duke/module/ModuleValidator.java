@@ -15,10 +15,10 @@ public class ModuleValidator {
     private ModuleValidator() {}
 
     /**
-     * Returns true if the module code matches the NUS format
+     * Returns true if the module code matches the NUS format.
      *
-     * @param code Module code to check (already uppercase)
-     * @return true if valid format, false otherwise
+     * @param code Module code to check (already uppercase).
+     * @return true if valid format, false otherwise.
      */
     public static boolean isValidModuleCode(String code) {
         if (code == null || code.isBlank()) {
@@ -28,9 +28,10 @@ public class ModuleValidator {
     }
 
     /**
-     * Validates that the module code is non-null, non-empty, and matches the NUS format
+     * Validates that the module code is non-null, non-empty, and matches the NUS format.
      *
      * @param code Module code to validate.
+     * @throws IllegalArgumentException if the code is null, blank, or in an invalid format.
      */
     public static void validateModuleCode(String code) {
         if (code == null || code.isBlank()) {
@@ -39,14 +40,15 @@ public class ModuleValidator {
         }
         if (!isValidModuleCode(code)) {
             logger.log(Level.WARNING, "Invalid module code format: {0}", code);
-            throw new IllegalArgumentException( "Invalid module code format: \"" + code + "\".");
+            throw new IllegalArgumentException("Invalid module code format: \"" + code + "\".");
         }
     }
 
     /**
-     * Validates that an MC (Modular Credit) value is positive integer
+     * Validates that an MC (Modular Credit) value is positive integer.
      *
      * @param mc MC value to validate (must not be null).
+     * @throws IllegalArgumentException if mc is null or non-positive.
      */
     public static void validateMc(Integer mc) {
         if (mc == null) {
@@ -62,12 +64,13 @@ public class ModuleValidator {
     }
 
     /**
-     * Validates that a user-supplied MC(Modular credit) matches the expected MC for Core Modules
+     * Validates that a user-supplied MC(Modular credit) matches the expected MC for Core Modules.
      * If the user did not supply an MC (mc is null), this check is skipped.
      *
-     * @param suppliedMc Mc provided by the user, or null if not supplied
-     * @param expectedMc The correct MC for this module from the module database (JSON file)
-     * @param moduleCode Module code
+     * @param suppliedMc Mc provided by the user, or null if not supplied.
+     * @param expectedMc The correct MC for this module from the module database (JSON file).
+     * @param moduleCode Module code.
+     * @throws IllegalArgumentException if suppliedMc does not match expectedMc.
      */
     public static void validateInternalMc(Integer suppliedMc, int expectedMc, String moduleCode) {
         if (suppliedMc == null) {

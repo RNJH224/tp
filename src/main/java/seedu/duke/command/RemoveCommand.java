@@ -24,14 +24,18 @@ public class RemoveCommand extends Command {
         String username = appState.getProfile().getName();
         Storage storage = new Storage(username);
 
-
         assert modules != null : "ModuleList should not be null";
         assert moduleCode != null && !moduleCode.isEmpty() : "ModuleCode should not be null";
 
         logger.log(Level.FINE, "Executing RemoveCommand for {0}", moduleCode);
 
         boolean removed = modules.removeModule(moduleCode);
+        saveModules(modules, storage);
 
+        return buildResultMessage(removed);
+    }
+
+    private void saveModules(ModuleList modules, Storage storage) {
         try {
             storage.save(modules.getCompletedModules());
             logger.log(Level.FINE, "Storage updated after removing module: {0}", moduleCode);
@@ -39,6 +43,9 @@ public class RemoveCommand extends Command {
             logger.log(Level.SEVERE, "Failed to save after removing module: {0}", moduleCode);
             throw new RuntimeException(e);
         }
+    }
+
+    private String buildResultMessage(boolean removed) {
         if (removed) {
             logger.log(Level.FINE, "Module removed successfully: {0}", moduleCode);
             return moduleCode + " has been removed";

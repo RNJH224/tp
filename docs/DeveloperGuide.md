@@ -288,7 +288,7 @@ PathLock (Main) → Parser → RemoveCommand → ModuleList → Storage
 
 #### Sequence Diagram
 The diagram below shows remove module path (`remove CS2113`):
-![Sequence Diagram for Remove Command](https://img.plantuml.biz/plantuml/png/XLFDReCm3BuZyGuM9tPefMwt7gPAsv5Aqr0V80EtZKO8IqpLnvyJKfhGIUEKmFVZppOxIyBGgBey8qaTGeq_8_ODmhiK9oFK5WmgVK5uqqg9lispismHZbhJbxxcMPw9XhI1WqMJPmEBoKOEeYSejX-2pfLklWiG5cwNHv1XQe2OFrG-lN-mzxZmHhLBw5wtOuULjEHn-se9gBbKSKB_DPnT15Syh5xd6c4BnIrs_RpPl1G-fhm8mYX8diq4JtRLCtLmXr1lkLwldnBo5360Lwbf4hKiWZVpMtnGICtdbh0ANh4P2Kin33Kn9VQFMfTdTn8hx2kupNfgO-m_yrrB-TeHA0y2QQ7HQkYGa3M17nPQBIeYCtAViRC8lIPUdh5lWPV6NVvd7mKJcUwMBsh4L4gI8OoKELPSi9obfq0s3Z9F_yP9N1EZQ54YjtHo1kteceBMUcX4Jrf-dndp3s5VZEp91ed5hE-hjkFy_9_-0W00)
+![Sequence Diagram for Remove Command](https://img.plantuml.biz/plantuml/png/ZLFDRW8X4BwJy0w4aptOn3PUF3HjlDh4rFe08qoxH1Usm5eVlooxAh1xw6qWtyzyC_3gF5ZVrYTAt57f1YpKpE5FYrhWcxNczxDIugZHERPuNAOeQrejXR4QBLjEqRT1MGdLWFOiGD6Ub4PAAYMHVHdZ3-P22IKWlB6CxnrQpi2nhg2aISXyjGLVROmuHi3rC0RPgqPVbe0FhCqPrwQkGSk8osvA-BkHxGatolc8lHzBu2u4W6-CgA7kWdL1sFpbrYzRCMwZ8LlldXQBPnx3gpDuJ49HSYD4SfSaK9kkc1K23vb2dtbWp7FdLH5LueYO6sVu880N5At76JJDpWTQQbreKvAJWzfzU46gpz1VpVX4b7JK2NC-qPQtBMPfKkv48yD-0jD1cAC43udnRNjNsCWoyqgMNHWLQ-ypiYeya0EY7YOWUQOsck9z7K5ktp-3_qcbh-aLjGmV_0y0)
 
 #### Why This Design?
 
@@ -733,6 +733,11 @@ It then loops through the 2D array `course` stored in PlannerList and prints the
 10. After all 8 semesters have been processed, the method returns the constructed string.
 11. Even if a semester does not contain any modules, its header is still displayed. This ensures that the planner structure remains explicit and consistently formatted for the user.
 
+#### Sequence Diagram
+
+The diagram below shows the sequence of action upon the user inputting `planner list`
+![sequence diagram of planner list](./Diagrams/plannerlist.png)
+
 ### `planner add` Command Implementation
 
 #### Overview
@@ -761,6 +766,11 @@ Key design decisions:
 5. Executes `PlannerList.addModule(module)`
 6. It extracts semester, and inserts it into the respective array index of course
 
+#### Sequence Diagram
+
+The diagram below shows the sequence of action upon the user inputting `planner add cs2113 y2s2`
+![sequence diagram of planner add](./Diagrams/plannerAdd.png)
+
 ### `planner remove` Command Implementation
 #### Overview
 The `planner remove` command allows the User to remove the modules that are in the planner should they not want it
@@ -783,6 +793,12 @@ Key design decisions:
 2. Sweeps through every `Module` in `course` and retrieves their `ModuleCode`
 3. If it matches, `Module` is removed
 4. If no matches found, `NoSuchElementException` is thrown
+
+#### Sequence Diagram
+
+The diagram below shows the sequence of action upon the user inputting `planner remove cs2113`
+![sequence diagram of planner remove](./Diagrams/plannerRemove.png)
+
 
 ### `planner edit` Command Implementation
 #### Overview
@@ -807,6 +823,11 @@ Key design decisions:
 4. Sets module's `semester` to inputted semester, if semester is in wrong format `IllegalArgumentException` is thrown 
 5. Executes `PlannerList.removeModule(moduleCode)` (see `planner remove` for execution)
 6. Executes `PlannerList.addModule(module)` (see `planner add` for execution)
+
+#### Sequence Diagram
+
+The diagram below shows the sequence of action upon the user inputting `planner edit cs2113 y2s2`
+![sequence diagram of planner edit](./Diagrams/editplanner.png)
 
 ---
 ## Product scope

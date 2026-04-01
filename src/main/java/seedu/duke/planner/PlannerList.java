@@ -163,6 +163,7 @@ public class PlannerList {
         removeModule(moduleCode);
         addModule(editedModule);
         // Assertion to verify the edited module is correctly placed
-        assert containsModule(editedModule.getModuleCode()) : "Edited module should exist in the planner after modification.";
+        assert containsModule(editedModule.getModuleCode()) 
+                : "Edited module should exist in the planner after modification.";
     }
 }

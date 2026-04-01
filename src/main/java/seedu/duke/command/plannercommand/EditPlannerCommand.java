@@ -17,8 +17,18 @@ public class EditPlannerCommand extends Command {
     public String execute (AppState appState) {
         ModuleList moduleList = appState.getModule();
         PlannerList course = appState.getPlanner();
-        Module editedModule = moduleList.allModules.get(moduleCode);
-        course.editModule(editedModule, semester, moduleCode);
+        Module editedModule = moduleList.getModule(moduleCode);
+        if (editedModule == null) {
+            return "\"" + moduleCode + "\" is not a recognised module.";
+        }
+
+        try {
+            course.editModule(editedModule, semester, moduleCode);
+            appState.getPlannerStorage().save(course);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+
         return "Edited " + moduleCode + " to be in " + semester;
     }
 }

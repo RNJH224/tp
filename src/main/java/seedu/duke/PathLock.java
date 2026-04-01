@@ -35,7 +35,7 @@ public class PathLock {
 
         UserProfile profile = getOrCreateProfile(scanner);
         ModuleList modules = getModuleList(profile.getName());
-        AppState appState = new AppState(modules, course, profile);
+        AppState appState = new AppState(modules, course, profile, profile.getName());
 
         while (true) {
             UI.userPrompt();

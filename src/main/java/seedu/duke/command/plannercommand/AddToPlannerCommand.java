@@ -35,6 +35,11 @@ public class AddToPlannerCommand extends Command {
             return e.getMessage();
         }
         planner.addModule(module);
+        try {
+            appState.getPlannerStorage().save(planner);
+        } catch (Exception e) {
+            return "Error saving planner: " + e.getMessage();
+        }
 
         int currentWorkload = planner.getSemesterWorkload(semester);
         int recommendedMax = profile.getRecommendedMaxWorkload();

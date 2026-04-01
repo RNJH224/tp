@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 public class ProfileStorage {
     private static final Logger logger = Logger.getLogger(ProfileStorage.class.getName());
     private String getProfilePath(String username) {
-        return "data/users/" + username.trim() + "_profile.txt";
+        return "data/users/" + username.trim() + "/profile.txt";
     }
 
 

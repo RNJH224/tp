@@ -1,16 +1,13 @@
 # Shi Yong - Project Portfolio Page
 
-## Overview
+## PathLock: Overview
 PathLock is a desktop CLI application designed to help Computer Engineering (CEG) students at NUS plan and track their multi-year academic journey. It enables students to record completed modules, monitor MC progress towards the 160-MC graduation requirement, check prerequisite and post-requisite chains, and organise planned modules across semesters — all offline, with data stored in a human-editable file.
 
-### Summary of Contributions
-
-## Overview
-
+## Summary of Contributions
 
 ---
 
-## Code Contributed
+### Code Contributed
 
 View my code contributions on the tP Code Dashboard: [ShiYong: RepoSense tP Code Contributions](https://nus-cs2113-ay2526-s2.github.io/tp-dashboard/?search=shiyong52)
 

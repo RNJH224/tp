@@ -18,6 +18,10 @@ public class AppState {
         this.plannerStorage = new PlannerStorage(username);
     }
 
+    public void setPlanner(PlannerList planner) {
+        this.planner = planner;
+    }
+
     public ModuleList getModule() {
         return module;
     }
@@ -29,9 +33,11 @@ public class AppState {
     public UserProfile getProfile() {
         return profile;
     }
+
     public PlannerStorage getPlannerStorage() {
         return plannerStorage;
     }
+
     public void update(ModuleList module, PlannerList planner, UserProfile profile, PlannerStorage plannerStorage) {
         this.module = module;
         this.planner = planner;

@@ -58,7 +58,7 @@ public class Parser {
         }
 
         if (input.startsWith("planner")) {
-            input = input.substring(8).trim();
+            input = input.substring(7).trim();
             if (input.equals("list")) {
                 return new ListPlannerCommand();
             }

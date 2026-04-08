@@ -108,22 +108,22 @@ Example output (new profile):
 Enter your name: russell
 Enter your GPA (2.0 to 5.0): 4.5
 Profile saved for russell.
-Mar 31, 2026 9:49:27 PM seedu.duke.storage.ProfileStorage saveProfile
+Mar 31, 2026 9:49:27 PM seedu.pathlock.storage.ProfileStorage saveProfile
 INFO: Saved profile for user: russell
 Recommended max semester workload: 32 MCs
 =======================================================================
-Mar 31, 2026 9:49:27 PM seedu.duke.module.ModuleLoader loadModules
+Mar 31, 2026 9:49:27 PM seedu.pathlock.module.ModuleLoader loadModules
 INFO: Loaded 34 modules from JSON
-Mar 31, 2026 9:49:27 PM seedu.duke.storage.Storage load
+Mar 31, 2026 9:49:27 PM seedu.pathlock.storage.Storage load
 INFO: Loading modules from file: data/users/russell_modules.txt
-Mar 31, 2026 9:49:27 PM seedu.duke.storage.Storage load
+Mar 31, 2026 9:49:27 PM seedu.pathlock.storage.Storage load
 WARNING: Module file not found. Created new file at data/users/russell_modules.txt
 ```
 Example output (existing profile):
 
 ```
 Enter your name: russell
-Mar 31, 2026 10:06:14 PM seedu.duke.storage.ProfileStorage loadProfile
+Mar 31, 2026 10:06:14 PM seedu.pathlock.storage.ProfileStorage loadProfile
 INFO: Loaded profile for user: russell
 Welcome back, russell!
 Saved GPA: 4.50

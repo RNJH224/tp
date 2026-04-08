@@ -4,6 +4,9 @@
 ## Acknowledgements
 
 - [Gson](https://github.com/google/gson) (v2.11.0) — Used for parsing the `modules.json` data file containing CEG module information.
+- [JUnit 5 (JUnit Jupiter)](https://junit.org/junit5/) — Used as the testing framework across all
+    test files.
+- [PlantUML](https://plantuml.com/) — Used to generate all UML class diagrams and sequence diagrams in the Developer Guide.
 - This project follows the structure and conventions taught in [CS2113 Software Engineering](https://nus-cs2113-ay2526s2.github.io/website/), including the Command pattern and separation of concerns between Parser, Command, and Storage components.
 
 ---

@@ -13,7 +13,7 @@ public class StorageTest {
 
     @Test
     public void load_emptyFile_returnsEmptyList() throws IOException {
-        Storage storage = new Storage("data/test.txt");
+        ModuleStorage storage = new ModuleStorage("data/test.txt");
 
         // ensure empty file
         storage.save(List.of());

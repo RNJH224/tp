@@ -82,8 +82,9 @@
 ## 2. Design
 
 ### Architecture
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+PathLock is designed using a layered architecture to ensure a clear separation of concerns and maintainability. The application is divided into four main layers: the UI Layer, Logic Layer, Model Layer, and Storage Layer, all coordinated through a central State Hub.
 
+![Architecture Diagram](./Diagrams/ArchitectureDiagram.jpg)
 ---
 ### Command Component
 **API:** `Command.java`

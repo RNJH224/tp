@@ -58,7 +58,10 @@ public class DoneCommand extends Command {
         }
     }
 
-    private String handleInternalModule(ModuleList modules, ModuleStorage storage) throws DuplicateException, IOException {
+    private String handleInternalModule(
+            ModuleList modules,
+            ModuleStorage storage
+    ) throws DuplicateException, IOException {
         int expectedMc = modules.getMcForModule(moduleCode);
 
         ModuleValidator.validateInternalMc(mc, expectedMc, moduleCode);
@@ -71,7 +74,10 @@ public class DoneCommand extends Command {
         return moduleCode + " has been added.";
     }
 
-    private String handleExternalModule(ModuleList modules, ModuleStorage storage) throws DuplicateException, IOException {
+    private String handleExternalModule(
+            ModuleList modules,
+            ModuleStorage storage
+    ) throws DuplicateException, IOException {
         if (mc == null) {
             return "\"" + moduleCode + "\" is not a recognised module. "
                     + "If this is an external module, provide its MCs using /mc. "

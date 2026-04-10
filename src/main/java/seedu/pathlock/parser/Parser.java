@@ -22,7 +22,11 @@ import seedu.pathlock.command.plannercommand.ListPlannerCommand;
 public class Parser {
 
     private static final int DONE_PREFIX_LENGTH = 5;
-    private static final int REMOVE_PREFIX_LENGTH = 7;
+    private static final int REMOVE_PREFIX_LENGTH = 8;
+    private static final int SWITCH_PREFIX_LENGTH = 8;
+    private static final int ADD_PREFIX_LENGTH = 13;
+    private static final int EDIT_PREFIX_LENGTH = 14;
+    private static final int PARTS_LENGTH = 2;
 
     public static Command parseCommand(String input) {
 
@@ -47,7 +51,7 @@ public class Parser {
         }
 
         if (input.startsWith("remove")) {
-            if (input.length() < 8) {
+            if (input.length() < REMOVE_PREFIX_LENGTH) {
                 throw new MissingCommandException("Please input module code after 'remove '");
             }
             String moduleCode = input.substring(7).trim();
@@ -55,7 +59,7 @@ public class Parser {
         }
 
         if (input.startsWith("switch")) {
-            if (input.length() < 8) {
+            if (input.length() < SWITCH_PREFIX_LENGTH) {
                 throw new MissingCommandException("Please input username after 'switch '");
             }
             String username = input.substring(7).trim();
@@ -69,7 +73,7 @@ public class Parser {
                 return new ListPlannerCommand();
             }
             if (input.startsWith("add")) {
-                if (input.length() < 13) {
+                if (input.length() < ADD_PREFIX_LENGTH) {
                     throw new MissingCommandException("Please input module code and semester after 'add '");
                 }
                 //calculated from the back as y1s1 will be standard
@@ -79,7 +83,7 @@ public class Parser {
                 return new AddToPlannerCommand(moduleCode,semester);
             }
             if (input.startsWith("edit")) {
-                if (input.length() < 14) {
+                if (input.length() < EDIT_PREFIX_LENGTH) {
                     throw new MissingCommandException("Please input module code and semester after 'edit '");
                 }
                 String param = input.substring(5);
@@ -90,7 +94,7 @@ public class Parser {
                 return new EditPlannerCommand(moduleCode, semester);
             }
             if (input.startsWith("remove")) {
-                if (input.length() < REMOVE_PREFIX_LENGTH + 1) {
+                if (input.length() < REMOVE_PREFIX_LENGTH) {
                     throw new MissingCommandException("Please input module code after 'remove '");
                 }
                 String moduleCode = input.substring(7).trim();
@@ -100,7 +104,7 @@ public class Parser {
                 return new PlannerListCommand();
             }
             if (input.startsWith("switch")) {
-                if (parts.length < 2) {
+                if (parts.length < PARTS_LENGTH) {
                     throw new IllegalArgumentException("Planner name required.");
                 }
                 return new PlannerSwitchCommand(parts[1]);

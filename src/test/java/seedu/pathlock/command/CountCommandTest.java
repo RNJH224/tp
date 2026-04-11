@@ -8,6 +8,7 @@ import seedu.pathlock.module.ModuleList;
 import seedu.pathlock.planner.PlannerList;
 import seedu.pathlock.profile.UserProfile;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CountCommandTest {
@@ -96,5 +97,8 @@ public class CountCommandTest {
         String result = cmd.execute(state);
         assertTrue(result.contains("Completed: 164 / 160 MCs"));
         assertTrue(result.contains("Incomplete: 0 MCs"));
+        assertTrue(result.contains("(100.0%)"));
+        assertTrue(result.contains("0.0%)"));
+        assertFalse(result.contains("-"));
     }
 }

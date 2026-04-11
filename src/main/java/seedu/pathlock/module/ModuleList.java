@@ -266,8 +266,9 @@ public class ModuleList {
         if (remainingMcs < 0) {
             remainingMcs = 0;
         }
-        double percentage = (double) completedMcs / TOTAL_GRADUATION_MCS * 100;
-        double remainingPercentage = 100.0 - percentage;
+        double percentage = Math.min(100.0,
+                (double) completedMcs / TOTAL_GRADUATION_MCS * 100);
+        double remainingPercentage = (double) remainingMcs / TOTAL_GRADUATION_MCS * 100;
 
         logger.log(Level.INFO, "MC progress: {0}/{1} MCs completed ({2}%)",
                 new Object[]{completedMcs, TOTAL_GRADUATION_MCS, String.format("%.1f", percentage)});

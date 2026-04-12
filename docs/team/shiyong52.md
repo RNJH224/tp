@@ -65,7 +65,7 @@ Given below are my contributions to the project.
   - **User Guide:** 
     - Wrote full documentation for `done` (both paths, all error messages, usage examples) and `remove` (success and not-found outputs).
   - **Developer Guide:** 
-    - Include done and remove Command class Diagram
+    - Included the done and remove command class diagram
     - Wrote the `done` command section (two sequence
     diagrams, design rationale), `remove` command section (sequence diagram, design
     rationale), duplicate module check section (sequence diagram), and the architecture overview with diagram.

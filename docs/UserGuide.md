@@ -581,7 +581,7 @@ Planner variations:
 | Switch user profile | `switch USERNAME` | `switch alice` |
 | View command details | `help COMMAND`                 | `help done`               |
 | Mark module as done | `done MODULE_CODE`             | `done CS2113`             |
-| Add external module | `done MODULE_CODE /mc NUMBER`  | `done SEP101 /mc 4`       |
+| Add external module | `done MODULE_CODE /mc NUMBER`  | `done GEC1001 /mc 4`       |
 | Remove a module | `remove MODULE_CODE`           | `remove CS2113`           |
 | List completed modules | `list completed`               | `list completed`          |
 | List incomplete modules | `list incomplete`              | `list incomplete`         |

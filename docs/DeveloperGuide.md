@@ -101,12 +101,12 @@ The `Command` component serves as the backbone of PathLock's execution model. Al
 User Input → PathLock → Parser → Command → AppState → Domain Component
 ```
 
-How the `Command` Component work:
+How the `Command` Component works:
 1. When the user enters a command, `PathLock` passes the raw input to `Parser`, which identifies the command type and constructs the corresponding `Command` object.
 2. Each command is a concrete subclass of the abstract `Command` class, falling into one of four groups:
     - **List Commands** — `ListCompletedCommand`, `ListIncompleteCommand`, `ListNeededCommand`
     - **Module Management Commands** — `DoneCommand`, `RemoveCommand`, `CountCommand`, `PrereqCommand`, `PostreqCommand`
-    - **Module Planner Commands** — `AddToPlannerCommand`, `RemoveFromPlannerCommand`, `EditPlannerCommand`, `ListPlannerCommand`, `PlannerSwitchCommand`
+    - **Module Planner Commands** — `AddToPlannerCommand`, `RemoveFromPlannerCommand`, `EditPlannerCommand`, `ListPlannerCommand`, `PlannerListCommand`, `PlannerSwitchCommand`
     - **PathLock System Commands** — `HelpCommand`, `SwitchUserCommand`
 3. `PathLock` calls `execute(appState)` on the returned command. Inside `execute()`, the command retrieves what it needs from `AppState` (via `getModule()`, `getPlanner()`, or `getProfile()`), then delegates the domain logic to the relevant component.
 4. Every `execute()` returns a `String` result, which `PathLock` prints to the user.
@@ -340,7 +340,7 @@ The diagram below shows the key classes involved in the `done` and `remove` comm
 
 The `done` command marks a module as completed and records it towards the user's graduation progress.
 
-- **Internal module** (e.g `done CS2113`): the MC value is lookup automatically from the moduel database.
+- **Internal module** (e.g `done CS2113`): the MC value is looked up automatically from the module database.
 - **External module** (e.g `done GEC1001`): the user must supply the MC count explicitly via `/mc`.
 
 #### Design
@@ -608,7 +608,7 @@ The diagram below show the key classes involved in `UserProfile` and `ProfileSto
 The `UserProfile` class stores the user's name and GPA, and uses the GPA to derive a recommended maximum semester workload in MCs. This profile is created once at startup, either loaded from file via `ProfileStorage`, or created fresh from user input.
 
 Each user profile is stored at:
-`data/users/<username>_profile.txt`
+`data/users/<username>profile.txt`
 
 Format:
 `NAME|GPA`
@@ -940,13 +940,13 @@ The diagram below shows the sequence of action upon the user inputting `planner 
 ![sequence diagram of planner edit](./Diagrams/seq_diag_planneredit.png)
 
 ---
-## 8. Product scope
+## 8. Product Scope
 ### Target user profile
 - Y1-Y4 Computer Engineering Undergraduate Students (JC path)
-- did not follow the recommended TimeTable
-- has a need to manage complex multi-year university pathways
-- can type fast
-- is reasonably comfortable using CLI apps
+- Does not follow the recommended timetable
+- Has a need to manage complex multi-year university pathways
+- Can type fast
+- Is reasonably comfortable using CLI apps
 
 ### Value proposition
 
@@ -1019,7 +1019,7 @@ database or internet connection.
 
 ---
 
-## 13. Instructions for manual testing
+## 13. Instructions For Manual Testing
 
 Given below are instructions to test the app manually. These instructions provide a starting point;
 testers are expected to do more exploratory testing.

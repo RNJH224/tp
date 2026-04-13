@@ -6,21 +6,25 @@ import seedu.pathlock.command.plannercommand.AddToPlannerCommand;
 import seedu.pathlock.module.ModuleList;
 import seedu.pathlock.planner.PlannerList;
 import seedu.pathlock.profile.UserProfile;
+import seedu.pathlock.storage.PlannerStorage;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AddToPlannerCommandTest {
 
+    private AppState createState(ModuleList modules, PlannerList planner) {
+        return new AppState(
+                modules,
+                planner,
+                new UserProfile("Test User", 3.50),
+                new PlannerStorage("Test User", "plan1")
+        );
+    }
+
     @Test
     public void execute_moduleCodeDoesNotExist_throwsException() {
-        ModuleList modules = new ModuleList();
-        AppState state = new AppState(
-                modules,
-                new PlannerList(),
-                new UserProfile("Test User", 3.50),
-                "Test User"
-        );
+        AppState state = createState(new ModuleList(), new PlannerList());
 
         AddToPlannerCommand command = new AddToPlannerCommand("CS9999", "y1s1");
 
@@ -29,13 +33,7 @@ public class AddToPlannerCommandTest {
 
     @Test
     public void execute_moduleCodeDoesExist_success() {
-        ModuleList modules = new ModuleList();
-        AppState state = new AppState(
-                modules,
-                new PlannerList(),
-                new UserProfile("Test User", 3.50),
-                "Test User"
-        );
+        AppState state = createState(new ModuleList(), new PlannerList());
 
         AddToPlannerCommand command = new AddToPlannerCommand("CS1231", "y1s1");
         String result = command.execute(state);
@@ -45,13 +43,7 @@ public class AddToPlannerCommandTest {
 
     @Test
     public void execute_semesterWrongFormat_returnsErrorMessage() {
-        ModuleList modules = new ModuleList();
-        AppState state = new AppState(
-                modules,
-                new PlannerList(),
-                new UserProfile("Test User", 3.50),
-                "Test User"
-        );
+        AppState state = createState(new ModuleList(), new PlannerList());
 
         AddToPlannerCommand command = new AddToPlannerCommand("CS1231", "wrongSem");
         String result = command.execute(state);
@@ -61,13 +53,7 @@ public class AddToPlannerCommandTest {
 
     @Test
     public void execute_semesterRightFormat_success() {
-        ModuleList modules = new ModuleList();
-        AppState state = new AppState(
-                modules,
-                new PlannerList(),
-                new UserProfile("Test User", 3.50),
-                "Test User"
-        );
+        AppState state = createState(new ModuleList(), new PlannerList());
 
         AddToPlannerCommand command = new AddToPlannerCommand("CS1231", "y1s1");
         String result = command.execute(state);
@@ -77,17 +63,10 @@ public class AddToPlannerCommandTest {
 
     @Test
     public void execute_moduleAlreadyAdded_throwsException() {
-        ModuleList modules = new ModuleList();
         PlannerList planner = new PlannerList();
-        AppState state = new AppState(
-                modules,
-                planner,
-                new UserProfile("Test User", 3.50),
-                "Test User"
-        );
+        AppState state = createState(new ModuleList(), planner);
 
-        AddToPlannerCommand firstCommand = new AddToPlannerCommand("CS1231", "y1s1");
-        firstCommand.execute(state);
+        new AddToPlannerCommand("CS1231", "y1s1").execute(state);
 
         AddToPlannerCommand secondCommand = new AddToPlannerCommand("CS1231", "y1s1");
 

@@ -5,16 +5,18 @@ import seedu.pathlock.appstate.AppState;
 import seedu.pathlock.module.ModuleList;
 import seedu.pathlock.planner.PlannerList;
 import seedu.pathlock.profile.UserProfile;
+import seedu.pathlock.storage.PlannerStorage;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PrereqCommandTest {
 
     private AppState createTestState() {
-        return new AppState(new ModuleList(),
+        return new AppState(
+                new ModuleList(),
                 new PlannerList(),
                 new UserProfile("Test User", 3.50),
-                "Test User"
+                new PlannerStorage("Test User", "plan1")
         );
     }
 
@@ -23,6 +25,7 @@ public class PrereqCommandTest {
         AppState state = createTestState();
         PrereqCommand cmd = new PrereqCommand("EE2211");
         String result = cmd.execute(state);
+
         assertTrue(result.contains("Prerequisites for EE2211"));
         assertTrue(result.contains("CS1010"));
         assertTrue(result.contains("MA1511"));
@@ -34,6 +37,7 @@ public class PrereqCommandTest {
         AppState state = createTestState();
         PrereqCommand cmd = new PrereqCommand("CS1010");
         String result = cmd.execute(state);
+
         assertTrue(result.contains("CS1010 has no prerequisites"));
     }
 
@@ -42,6 +46,7 @@ public class PrereqCommandTest {
         AppState state = createTestState();
         PrereqCommand cmd = new PrereqCommand("FAKE1234");
         String result = cmd.execute(state);
+
         assertTrue(result.contains("FAKE1234 is not a recognised module"));
     }
 
@@ -50,6 +55,7 @@ public class PrereqCommandTest {
         AppState state = createTestState();
         PrereqCommand cmd = new PrereqCommand("ee2211");
         String result = cmd.execute(state);
+
         assertTrue(result.contains("Prerequisites for EE2211"));
     }
 
@@ -58,6 +64,7 @@ public class PrereqCommandTest {
         AppState state = createTestState();
         PrereqCommand cmd = new PrereqCommand("CS2113");
         String result = cmd.execute(state);
+
         assertTrue(result.contains("Prerequisites for CS2113"));
         assertTrue(result.contains("CS2040C"));
     }

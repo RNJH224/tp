@@ -7,20 +7,25 @@ import seedu.pathlock.command.plannercommand.ListPlannerCommand;
 import seedu.pathlock.module.ModuleList;
 import seedu.pathlock.planner.PlannerList;
 import seedu.pathlock.profile.UserProfile;
+import seedu.pathlock.storage.PlannerStorage;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ListPlannerCommandTest {
 
-    @Test
-    public void execute_emptyPlanner_returnsListOutput() {
-        AppState state = new AppState(
+    private AppState createState() {
+        return new AppState(
                 new ModuleList(),
                 new PlannerList(),
                 new UserProfile("Test User", 3.50),
-                "Test User"
+                new PlannerStorage("Test User", "plan1")
         );
+    }
+
+    @Test
+    public void execute_emptyPlanner_returnsListOutput() {
+        AppState state = createState();
 
         ListPlannerCommand command = new ListPlannerCommand();
         String result = command.execute(state);
@@ -30,12 +35,7 @@ public class ListPlannerCommandTest {
 
     @Test
     public void execute_oneModuleInPlanner_success() {
-        AppState state = new AppState(
-                new ModuleList(),
-                new PlannerList(),
-                new UserProfile("Test User", 3.50),
-                "Test User"
-        );
+        AppState state = createState();
 
         new AddToPlannerCommand("CS1231", "y1s1").execute(state);
 
@@ -47,12 +47,7 @@ public class ListPlannerCommandTest {
 
     @Test
     public void execute_modulesInDifferentSemesters_success() {
-        AppState state = new AppState(
-                new ModuleList(),
-                new PlannerList(),
-                new UserProfile("Test User", 3.50),
-                "Test User"
-        );
+        AppState state = createState();
 
         new AddToPlannerCommand("CS1231", "y1s1").execute(state);
         new AddToPlannerCommand("CS2113", "y1s2").execute(state);

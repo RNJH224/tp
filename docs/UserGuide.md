@@ -7,6 +7,9 @@ PathLock is a **desktop app for planning your CEG modules**, optimised for use v
 - [Quick Start](#quick-start)
 - [Features](#features)
     - [Viewing help: `help`](#viewing-help--help)
+    - [Exiting PathLock: `exit`](#exiting-pathlock--exit)
+    - [Creating or loading a profile at startup](#Creating-or-loading-a-profile-at-startup)
+    - [Switching to another user profile : `switch`](#Switching-to-another-user-profile--switch)
     - [Listing completed modules: `list completed`](#listing-completed-modules--list-completed)
     - [Listing incomplete modules: `list incomplete`](#listing-incomplete-modules--list-incomplete)
     - [Listing all required modules: `list needed`](#listing-all-required-modules--list-needed)
@@ -19,8 +22,6 @@ PathLock is a **desktop app for planning your CEG modules**, optimised for use v
     - [Removing a module from your planner: `planner remove MODULE_CODE`](#removing-a-module-from-your-planner--planner-remove)
     - [Shifting a module to another semester on your planner: `planner edit MODULE_CODE y#s#`](#shifting-a-module-on-your-planner--planner-edit)
     - [Viewing your planner: `planner list`](#viewing-your-planner--planner)
-    - [Saving your data](#saving-your-data)
-    - [Exiting the program: `exit`](#exiting-the-program--exit)
 - [FAQ](#faq)
 - [Known Issues](#known-issues)
 - [Command Summary](#command-summary)
@@ -58,7 +59,7 @@ PathLock is a **desktop app for planning your CEG modules**, optimised for use v
 > **Notes:**
 > - Words in `UPPER_CASE` are parameters to be supplied by you. e.g. in `done MODULE_CODE`, `MODULE_CODE` is a parameter such as `done CS2113`.
 > - Module codes must follow the NUS format: 2–3 uppercase letters, 4 digits, and an optional trailing letter (e.g. `CS2040C`, `EE2026`).
-> - Commands are **case-insensitive** for module codes (e.g. `done cs2113` works the same as `done CS2113`).
+> - Commands are **case-insensitive** — both command keywords and module codes can be typed in any case (e.g. `DONE cs2113`, `List Completed`, and `COUNT` all work).
 
 ---
 ### PathLock System Commands
@@ -91,10 +92,15 @@ Examples:
   done CS3230 /mc 4
 =======================================================================
 ```
+---
+#### Exiting PathLock : `exit`
+
+Exits PathLock. All data is saved automatically before the program closes.
+
+**Format:** `exit`
 
 ---
-
-### Profile Creation
+### Profile Creation & Switching Users
 
 #### Creating or loading a profile at startup
 When the program starts, it prompts the user to enter their name
@@ -129,6 +135,55 @@ Welcome back, russell!
 Saved GPA: 4.50
 Recommended maximum semester workload: 32 MCs
 ```
+---
+
+### Plan selection
+
+```
+After inputting your name and GPA the program will check your profile 
+If the program detects that this is a new User with no plan yet it will create a defult blank plan named 'plan1'
+
+If User already has one or more plans stored program will list all available plan can prompt user to select which plan
+
+to select the plan enter the plan index instead of the name
+
+```
+Example:
+```
+Enter your name: r
+Welcome back, r!
+Saved GPA: 4.00
+Recommended maximum semester workload: 28 MCs
+=======================================================================
+Available plans:
+1. plan1
+2. plan2
+Select a plan by number: 1
+Loaded plan: plan1
+```
+
+---
+#### Switching to another user profile : `switch`
+
+Switches the current session to a different user's profile, loading their saved modules and planner data.
+
+**Format:** `switch USERNAME`
+- `USERNAME` must match an existing saved profile exactly.
+- All current session data is replaced with the switched user's data.
+
+**Examples:**
+- `switch alice` — switches to alice's profile
+
+**Example output:**
+```
+Switched to user: alice
+```
+
+**Example error output:**
+```
+User "alice" does not exist.
+```
+> **Note:** You cannot switch to a user that has not been created yet. Run PathLock fresh and enter the new username at startup to create a new profile first.
 
 ---
 ### List Commands
@@ -146,7 +201,7 @@ Completed modules:
 2. CS2113
 3. CG2111A
 ```
-
+---
 #### Listing incomplete modules : `list incomplete`
 
 Shows all required CEG modules that you have not yet completed.
@@ -160,7 +215,7 @@ Incomplete modules:
 2. EE2026
 3. CS2103 OR CS2113
 ```
-
+---
 #### Listing all required modules : `list needed`
 
 Shows the full list of modules required to graduate from CEG.
@@ -180,7 +235,6 @@ Modules required for graduation:
 ---
 ### Module Management Commands
 
-
 #### Marking a module as completed : `done`
 
 Marks a module as completed and records it towards your graduation progress.
@@ -190,6 +244,12 @@ Marks a module as completed and records it towards your graduation progress.
 - For **core CEG modules** (e.g. `done CS2113`), the MC value is retrieved automatically from the database.
 - For **external modules** not in the CEG curriculum (e.g. `done GEC1001 /mc 4`), you must supply the MC count using `/mc`.
 - Module codes are case-insensitive (e.g. `done cs2113` works the same as `done CS2113`).
+
+**MC (Modular Credit) Constraints**: When using `/mc`, the MC value must:
+- Be provided (cannot be missing)
+- Be an **integer**
+- Be **greater than 0**
+- Be **less than or equal to 12**
 
 **Examples:**
 - `done CS2113` — marks CS2113 as completed (MC looked up automatically)
@@ -210,6 +270,15 @@ Invalid module code format: "BADCODE".
 ```
 "GEC1001" is not a recognised module. If this is an external module,
 provide its MCs using /mc. Example: done GEC1001 /mc 4
+```
+```
+Please provide a number after /mc. Example: done CS2113 /mc 4
+```
+```
+MC must be a positive integer, but got: 0.
+```
+```
+MC cannot be greater than 12, but got: 20.
 ```
 
 ---
@@ -236,7 +305,6 @@ CS2113 is not in your module list
 ```
 
 ---
-
 #### Counting MC progress : `count`
 
 Shows your completed and remaining MC progress towards the 160 MCs required for graduation. The count includes both internal CEG modules and any external modules you have added via `done MODULE_CODE /mc NUMBER`.
@@ -249,6 +317,9 @@ Completed: 40 / 160 MCs (25.0%)
 Incomplete: 120 MCs (75.0%)
 ```
 
+> **Note:** GEN/GEC modules (e.g. GEC1001, GEN2000) are not included in PathLock's built-in module list as they vary widely across pillars and cohorts. To track them towards your 160 MC graduation requirement, add them manually using `done MODULE_CODE /mc NUMBER` (e.g. `done GEC1001 /mc 4`).
+
+---
 #### Viewing prerequisites : `prereq MODULE_CODE`
 
 Shows the prerequisites needed before taking a specified module. Only modules within the CEG curriculum are recognised.
@@ -278,7 +349,7 @@ CS1010 has no prerequisites.
 ```
 FAKE1234 is not a recognised module.
 ```
-
+---
 #### Viewing modules unlocked : `postreq MODULE_CODE`
 
 Shows the CEG modules that are unlocked by completing a specified module. In other words, it lists all CEG modules that have the given module as a prerequisite.
@@ -352,6 +423,7 @@ Shows all mods the user has added to planner, separated by semesters.
 >=======================================================================
 > ```
 
+---
 #### Adding mods to planner : `planner add`
 
 Allows the user to add modules for a specific semester in the planner
@@ -372,6 +444,9 @@ Current workload for y1s1: 4 MCs
 =======================================================================
 ```
 > **Note:** modules and semesters are not cap sensitive, year and semester to be together i.e. `y2s2` not `y2 s2`
+
+> **Note:** PathLock does not enforce co-scheduling constraints between modules (e.g. full-time internship modules like EG3611A cannot be taken alongside regular daytime modules). Users should refer to official NUS module information for such scheduling restrictions when planning their semesters.
+---
 #### Removing mods from planner : `planner remove`
 
 Allows the user to remove modules from the planner
@@ -398,7 +473,7 @@ assumption that cs1231 is not in planner
 CS1231 is not found in planner
 =======================================================================
 ```
-
+---
 #### Editing mods in planner : `planner edit`
 
 Allows the user to change which semester modules are shown in planner
@@ -425,8 +500,49 @@ CS2113 is not found in planner
 =======================================================================
 ```
 
----
+#### list all created plans : `planner list plans`
 
+Allows user to see all the plans that the user has created
+the output will show all plans and the plan with the label "active" is the plan that the user is currently on
+
+**Format** `planner list plans`
+
+**Example output:**
+```
+Pathlock awaits: planner list plans
+=======================================================================
+Planner variations:
+  1. plan1 (active)
+  2. plan2
+=======================================================================
+```
+
+#### Switching between plans in planner : `planner switch`
+
+Allows the user to switch which plan they which to edit and change
+
+If the user switch to a plan that is non-existing it will create a new plan with that plan name
+
+**Format** `planner switch PLAN_NAME`
+```
+planner switch plan2
+```
+
+**Example output (`planner switch plan2`):**
+```
+Pathlock awaits: planner switch plan2
+=======================================================================
+Switched to planner: plan2
+=======================================================================
+Pathlock awaits: planner list plans
+=======================================================================
+Planner variations:
+1. plan1
+2. plan2 (active)
+
+=======================================================================
+```
+---
 ## FAQ
 
 **Q: How do I transfer my data to another computer?**  
@@ -437,6 +553,9 @@ CS2113 is not found in planner
 
 **Q: Can I add modules that are not in the CEG required list?**  
 **A**: Yes. Use `done MODULE_CODE /mc NUMBER` to add external with a custom MC value.
+
+**Q: Why are GEN/GEC modules not in the compulsory module list?**  
+**A**: GEN/GEC modules vary widely across pillars and cohorts, with no single fixed set of module codes. PathLock tracks core CEG modules that are common to all students. You can still track GEN/GEC modules towards your 160 MC graduation progress using `done MODULE_CODE /mc NUMBER` (e.g. `done GEC1001 /mc 4`).
 
 **Q: Is Path Lock case-sensitive?**  
 **A**: No. Module codes are case-insensitive.
@@ -449,14 +568,20 @@ CS2113 is not found in planner
 
 1. **Profile is loaded from `data/profile.txt`** — If this file is deleted or corrupted, PathLock will prompt you to create a new profile on the next run.
 
+2. **No co-scheduling constraint checks** — The planner does not enforce module scheduling restrictions (e.g. full-time internship modules like EG3611A that cannot be taken with daytime modules). Users should verify scheduling compatibility via official NUS resources (e.g. NUSMods, EduRec) before finalising their plan.
+
+3. **MC workload constraints** – Not all modular credit (MC) constraints are currently enforced by the system. For example, certain semesters (e.g. Y4S2) do not have defined upper or lower workload limits according to NUS guidelines, and special semesters such as internship terms may not reflect their typical MC caps (e.g. 18 MCs). Users are advised to cross check workload requirements using official NUS resources. This may be enhanced in future versions.
+
 ---
 ## Command Summary
+
 | Action | Format                         | Example                   |
 |---|--------------------------------|---------------------------|
 | View all commands | `help`                         | `help`                    |
+| Switch user profile | `switch USERNAME` | `switch alice` |
 | View command details | `help COMMAND`                 | `help done`               |
 | Mark module as done | `done MODULE_CODE`             | `done CS2113`             |
-| Add external module | `done MODULE_CODE /mc NUMBER`  | `done SEP101 /mc 4`       |
+| Add external module | `done MODULE_CODE /mc NUMBER`  | `done GEC1001 /mc 4`       |
 | Remove a module | `remove MODULE_CODE`           | `remove CS2113`           |
 | List completed modules | `list completed`               | `list completed`          |
 | List incomplete modules | `list incomplete`              | `list incomplete`         |

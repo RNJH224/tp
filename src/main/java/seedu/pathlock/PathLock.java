@@ -19,6 +19,7 @@ import seedu.pathlock.profile.UserProfile;
 import seedu.pathlock.storage.ModStorage;
 import seedu.pathlock.storage.ProfileStorage;
 import seedu.pathlock.ui.UI;
+import seedu.pathlock.storage.PlannerStorage;
 
 public class PathLock {
     /**
@@ -28,13 +29,22 @@ public class PathLock {
         setupLogging();
 
         Scanner scanner = new Scanner(System.in);
-        PlannerList course = new PlannerList();
+
 
         UI.opening();
 
         UserProfile profile = getOrCreateProfile(scanner);
         ModuleList modules = getModuleList(profile.getName());
-        AppState appState = new AppState(modules, course, profile, profile.getName());
+        PlannerStorage plannerStorage = selectPlanner(scanner, profile.getName());
+        PlannerList course;
+
+        try {
+            course = plannerStorage.load();
+        } catch (IOException e) {
+            course = new PlannerList();
+        }
+
+        AppState appState = new AppState(modules, course, profile, plannerStorage);
 
         while (true) {
             UI.userPrompt();
@@ -121,7 +131,7 @@ public class PathLock {
         ProfileStorage profileStorage = new ProfileStorage(name);
         try {
 
-            UserProfile savedProfile = profileStorage.load(); //
+            UserProfile savedProfile = profileStorage.load(); 
             if (savedProfile != null) {
                 System.out.println("Welcome back, " + savedProfile.getName() + "!");
                 System.out.println("Saved GPA: " + String.format("%.2f", savedProfile.getGpa()));
@@ -156,16 +166,22 @@ public class PathLock {
 
     private static double promptForGpa(Scanner scanner) {
         while (true) {
-            System.out.print("Enter your GPA (2.0 to 5.0): ");
+            System.out.print("Enter your GPA (2.0 to 5.0) " +
+                    "(Enter 'y1s1' if you are in your first semester of study): ");
 
-            if (!scanner.hasNextLine()) {  // ← ADD THIS
+            if (!scanner.hasNextLine()) {  
                 throw new NoSuchElementException("No input provided for GPA.");
             }
 
             String input = scanner.nextLine().trim();
+
+            if (input.equalsIgnoreCase("y1s1")) {
+                return 0.0;
+            }
+            
             try {
                 double gpa = Double.parseDouble(input);
-                if (gpa < 2.0 || gpa > 5.0) {
+                if (Double.isNaN(gpa) || gpa < 2.0 || gpa > 5.0) {
                     System.out.println("GPA must be between 2.0 and 5.0.");
                     continue;
                 }
@@ -173,6 +189,40 @@ public class PathLock {
             } catch (NumberFormatException e) {
                 System.out.println("Please enter a valid GPA.");
             }
+        }
+    }
+    private static PlannerStorage selectPlanner(Scanner scanner, String username) {
+        PlannerStorage plannerStorage = new PlannerStorage(username);
+
+        var plans = plannerStorage.listPlannerNames();
+
+        if (plans.isEmpty()) {
+            plannerStorage.setPlannerName("plan1");
+            return plannerStorage;
+        }
+
+        System.out.println("Available plans:");
+        for (int i = 0; i < plans.size(); i++) {
+            System.out.println((i + 1) + ". " + plans.get(i));
+        }
+
+        while (true) {
+            System.out.print("Select a plan by number: ");
+            String input = scanner.nextLine().trim();
+
+            try {
+                int choice = Integer.parseInt(input);
+                if (choice >= 1 && choice <= plans.size()) {
+                    String selectedPlan = plans.get(choice - 1);
+                    plannerStorage.setPlannerName(selectedPlan);
+                    System.out.println("Loaded plan: " + selectedPlan);
+                    return plannerStorage;
+                }
+            } catch (Exception e) {
+                // ignore and retry
+            }
+
+            System.out.println("Invalid choice. Try again.");
         }
     }
 }

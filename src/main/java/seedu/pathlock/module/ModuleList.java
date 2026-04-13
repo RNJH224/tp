@@ -126,20 +126,27 @@ public class ModuleList {
         logger.log(Level.FINE, "External module added: {0} (MC={1})", new Object[]{code, mc});
     }
 
+    private boolean isRemovable(Module module) {
+        return module != null && module.isCompleted();
+    }
+
     public boolean removeModule(String moduleCode) {
         String code = moduleCode.toUpperCase();
-        Module module;
         if (isRecognisedModule(code)) {
-            module = allModules.get(code);
-        } else {
-            module = externalModules.get(code);
-        }
-
-        if (module != null && module.isCompleted()) {
+            Module module = allModules.get(code);
+            if (!isRemovable(module)) {
+                return false;
+            }
             module.markIncompleted();
             return true;
         }
-        return false;
+
+        Module module = externalModules.get(code);
+        if (!isRemovable(module)) {
+            return false;
+        }
+        externalModules.remove(code);
+        return true;
     }
 
     /**
@@ -259,8 +266,9 @@ public class ModuleList {
         if (remainingMcs < 0) {
             remainingMcs = 0;
         }
-        double percentage = (double) completedMcs / TOTAL_GRADUATION_MCS * 100;
-        double remainingPercentage = 100.0 - percentage;
+        double percentage = Math.min(100.0,
+                (double) completedMcs / TOTAL_GRADUATION_MCS * 100);
+        double remainingPercentage = (double) remainingMcs / TOTAL_GRADUATION_MCS * 100;
 
         logger.log(Level.INFO, "MC progress: {0}/{1} MCs completed ({2}%)",
                 new Object[]{completedMcs, TOTAL_GRADUATION_MCS, String.format("%.1f", percentage)});

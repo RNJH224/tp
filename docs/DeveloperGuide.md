@@ -170,7 +170,18 @@ public abstract void save(T data) throws IOException
 
 ##### Module Storage: `ModStorage`
 
-Stores completed modules for a user.
+##### ModStorage Overview
+
+`ModStorage` is responsible for persisting and loading all completed modules for a specific user.
+It ensures that module progress is retained across application restarts by writing module data to a user-specific file and reconstructing it when the application is launched.
+
+##### Design
+
+The planner persistence follows this execution pipeline:
+
+```
+PathLock (Main) -> AppState -> ModStorage -> modules.txt
+```
 
 **File Location**
 ```
@@ -195,7 +206,9 @@ CG2111A|4
 1. Ensure directory exists
 2. Write each module as:
 ```
-moduleCode|mc
+ModuleCode|Unit
+eg
+CS1231|4
 ```
 
 #### Sequence Diagram:
@@ -207,6 +220,16 @@ Mod Save:
 ---
 
 ##### Profile Storage: `ProfileStorage`
+
+##### Overview
+ProfileStorage manages the saving and loading of user profile information, including the user’s name and GPA. It provides a persistent representation of the user’s identity and academic standing within the application.
+
+##### Design
+
+The user profile persistence follows this execution pipeline:
+```
+PathLock (Main) -> AppState -> ProfileStorage -> <username>/profile.txt
+```
 
 Stores user profile information.
 
@@ -246,8 +269,15 @@ Load Profile
 
 ##### Planner Storage: `PlannerStorage`
 
-Stores planned modules and supports multiple planner variations.
+##### Overview
+`PlannerStorage` handles the persistence of a user’s academic planning data. It allows users to save, load, and manage different planner variations, enabling flexibility in exploring multiple study plans.
 
+##### Design
+
+The planner persistence follows this execution pipeline:
+```
+PathLock (Main) -> AppState -> PlannerStorage -> <username>/plans/<plannerName>.txt
+```
 **File Location**
 ```
 data/users/<username>/plans/<plannerName>.txt
@@ -275,7 +305,11 @@ CS2040C|Y2S2|4
 **Save Logic**
 1. Ensure directory exists
 2. Write each module as:
-
+```
+ModuleCode|Year and Semester|Units
+eg
+CS2113|y2s2|4
+```
 
 **Additional Features**
 - `setPlannerName(String plannerName)`
